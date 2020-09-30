@@ -1,5 +1,5 @@
 # Game Memory with cats on React 😺
-
+![alt image screenshot](./src/Assets/Screenshot_1.png)
 ### Technologies that were used in the project:
 * React (React-create-app setup)
 
