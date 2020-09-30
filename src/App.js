@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import Card from './Components/Card'
+import uuid from 'react-uuid'
 
 import styled from 'styled-components';
 import background from './Assets/background.jpg';
@@ -38,23 +39,24 @@ grid-gap: 20px;
 function App() {
 
     const initialCatsList = [
-        {name: "cat1", file: cat1, found: false},
-        {name: "cat2", file: cat2, found: false},
-        {name: "cat3", file: cat3, found: false},
-        {name: "cat4", file: cat4, found: false},
-        {name: "cat5", file: cat5, found: false},
-        {name: "cat6", file: cat6, found: false},
-        {name: "cat7", file: cat7, found: false},
-        {name: "cat8", file: cat8, found: false},
-        {name: "cat9", file: cat9, found: false},
-        {name: "cat10", file: cat10, found: false},
-        {name: "cat11", file: cat11, found: false},
-        {name: "cat12", file: cat12, found: false},
+        {name: 'cat1', file: cat1, found: false},
+        {name: 'cat2', file: cat2, found: false},
+        {name: 'cat3', file: cat3, found: false},
+        {name: 'cat4', file: cat4, found: false},
+        {name: 'cat5', file: cat5, found: false},
+        {name: 'cat6', file: cat6, found: false},
+        {name: 'cat7', file: cat7, found: false},
+        {name: 'cat8', file: cat8, found: false},
+        {name: 'cat9', file: cat9, found: false},
+        {name: 'cat10', file: cat10, found: false},
+        {name: 'cat11', file: cat11, found: false},
+        {name: 'cat12', file: cat12, found: false},
     ]
-    const  shuffle = (array) => {
+    const shuffle = (array) => {
         let currentIndex = array.length, temporaryValue, randomIndex;
 
         while (0 !== currentIndex) {
+
             randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex -= 1;
 
@@ -66,18 +68,27 @@ function App() {
         return array;
     }
 
-    const [cats, setCats] = useState(shuffle(initialCatsList).concat(shuffle(initialCatsList)))
-
+    const catsArr1 = shuffle(initialCatsList).map(i => {
+        i.id = uuid();
+        return i;
+    });
+    const catsArr2 = shuffle(initialCatsList).map(i => {
+        i.id = uuid();
+        return i;
+    });
+    const [cats, setCats] = useState(catsArr1.concat(catsArr2));
+    console.log('catsArr1', catsArr1)
+    console.log('catsArr2', catsArr2)
     const catsList = cats.map(cat => {
         if (!cat.found) {
             return (
-                <Card img={cat.file} alt={cat.name} found={cat.found}/>
+                <Card img={cat.file} alt={cat.name} found={cat.found} key={cat.id}/>
             )
         }
     })
     return (
-        <AppContainer className="App">
-            <Ul className="panel">
+        <AppContainer className='App'>
+            <Ul className='panel'>
                 {catsList}
             </Ul>
         </AppContainer>
