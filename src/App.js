@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import './App.css';
-import Card from './Components/Card'
-import uuid from 'react-uuid'
+import Card from './Components/Card';
+import EmptyCard from './Components/EmptyCard'
+import uuid from 'react-uuid';
 
 import styled from 'styled-components';
 import background from './Assets/background.jpg';
@@ -91,7 +92,17 @@ function App() {
 
     React.useEffect(() => {
         if (count >= 2) {
-            console.log("More than 2");
+            let filtered = cats.filter((i) => {
+                if(i.show){
+                    console.log('i', i.name)
+                    if (cats.lastIndexOf(i.name)  === cats.indexOf(i.name)) {
+                        console.log('hohoho', i)
+                        return i;
+                    }
+                }
+            });
+            console.log("filtered", filtered)
+
             setTimeout(() => {
                 const updatedArr = cats.map(i => {
                     i.show = false;
@@ -114,6 +125,8 @@ function App() {
                       show={cat.show}
                       updateFound={updateFound}/>
             )
+        } else {
+            return <EmptyCard/>
         }
     })
     return (
