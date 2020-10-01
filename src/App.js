@@ -71,23 +71,36 @@ function App() {
     const catsArr = shuffle(prepareArray(initialCatsList));
 
     const [cats, setCats] = useState(catsArr);
+    let [count, setCount] = useState(0)
+
 
     const updateFound = (name, id) => {
-        // console.log('val', name, id);
-        let showCards = 0;
-        const updatedArr = cats.map(i=>{
-            if(i.id === id){
-                showCards++;
-                i.show = !i.show;
+
+        const updatedArr = cats.map(i => {
+            if (i.id === id) {
+                i.show = true;
+                setCount(count => {
+                    return count + 1
+                })
             }
-            return i
+            return i;
         })
-        if(showCards >= 2){
-            console.log("Close all cards!")
-        }
         setCats(updatedArr);
 
     }
+
+    React.useEffect(() => {
+        if (count >= 2) {
+            console.log("More than 2");
+            setTimeout(() => {
+                const updatedArr = cats.map(i => {
+                    i.show = false;
+                    return i;
+                })
+                setCats(updatedArr);
+            }, 1000)
+        }
+    }, [count]);
 
     const catsList = cats.map(cat => {
 

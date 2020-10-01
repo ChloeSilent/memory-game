@@ -58,7 +58,7 @@ const Card = ({img, alt, cat, updateFound, id, show}) => {
     // console.log('card', id, show)
     // const [showCat, setShow] = useState(show)
     const onClick = (name, id) => {
-        console.log("cat onClick", name, id)
+        // console.log("cat onClick", name, id)
         updateFound(name, id)
     }
 
