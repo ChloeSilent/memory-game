@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, pure} from 'react';
 import styled from 'styled-components';
 import FrontImg from '../../Assets/meow.jpg'
 
@@ -9,6 +9,8 @@ const CardInner = styled.div`
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
+  transform: ${props => { return props.show !== false ? 'rotateY(180deg)': 'rotateY(0deg)'
+}}
 `
 
 const CardItem = styled.li`
@@ -24,9 +26,7 @@ background: #fff;
 position: relative;
 perspective: 1000px;
 transition: 0.6s;
-  &:hover ${CardInner} {
-    transform: rotateY(180deg);
-  }
+
 `;
 
 const FrontSide = styled.div`
@@ -53,17 +53,18 @@ max-width: 100%;
 height: auto;
 `;
 
-const Card = (props) => {
-    const {img, alt, cat} = props;
+const Card = ({img, alt, cat, updateFound, id, show}) => {
 
-    const [shown, setShown] = useState(false)
-    const onClick = () => {
-        setShown(!shown)
+    // console.log('card', id, show)
+    // const [showCat, setShow] = useState(show)
+    const onClick = (name, id) => {
+        console.log("cat onClick", name, id)
+        updateFound(name, id)
     }
 
     return (
-        <CardItem onClick={onClick}>
-            <CardInner>
+        <CardItem onClick={() => onClick(alt, id)}>
+            <CardInner show={show}>
                 <FrontSide>
                     <Img src={FrontImg} alt='meow'/>
                 </FrontSide>
@@ -75,4 +76,12 @@ const Card = (props) => {
     );
 };
 
-export default Card;
+function areEqual(prevProps, nextProps) {
+    if (prevProps.show === nextProps.show) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export default React.memo(Card, areEqual);

@@ -39,18 +39,18 @@ grid-gap: 20px;
 function App() {
 
     const initialCatsList = [
-        {name: 'cat1', file: cat1, found: false, id: null},
-        {name: 'cat2', file: cat2, found: false, id: null},
-        {name: 'cat3', file: cat3, found: false, id: null},
-        {name: 'cat4', file: cat4, found: false, id: null},
-        {name: 'cat5', file: cat5, found: false, id: null},
-        {name: 'cat6', file: cat6, found: false, id: null},
-        {name: 'cat7', file: cat7, found: false, id: null},
-        {name: 'cat8', file: cat8, found: false, id: null},
-        {name: 'cat9', file: cat9, found: false, id: null},
-        {name: 'cat10', file: cat10, found: false, id: null},
-        {name: 'cat11', file: cat11, found: false, id: null},
-        {name: 'cat12', file: cat12, found: false, id: null},
+        {name: 'cat1', file: cat1, found: false, id: null, show: false},
+        {name: 'cat2', file: cat2, found: false, id: null, show: false},
+        {name: 'cat3', file: cat3, found: false, id: null, show: false},
+        {name: 'cat4', file: cat4, found: false, id: null, show: false},
+        {name: 'cat5', file: cat5, found: false, id: null, show: false},
+        {name: 'cat6', file: cat6, found: false, id: null, show: false},
+        {name: 'cat7', file: cat7, found: false, id: null, show: false},
+        {name: 'cat8', file: cat8, found: false, id: null, show: false},
+        {name: 'cat9', file: cat9, found: false, id: null, show: false},
+        {name: 'cat10', file: cat10, found: false, id: null, show: false},
+        {name: 'cat11', file: cat11, found: false, id: null, show: false},
+        {name: 'cat12', file: cat12, found: false, id: null, show: false},
     ]
     const shuffle = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
@@ -64,17 +64,42 @@ function App() {
         const newArr = arr.slice(0).reduce(function (res, current, index, array) {
             return res.concat([current, current]);
         }, []);
-        return newArr.map(obj=> ({ ...obj, id: uuid() }))
+        return newArr.map(obj => ({...obj, id: uuid()}))
     }
-    const catsArr = prepareArray(initialCatsList);
+
+
+    const catsArr = shuffle(prepareArray(initialCatsList));
 
     const [cats, setCats] = useState(catsArr);
 
+    const updateFound = (name, id) => {
+        // console.log('val', name, id);
+        let showCards = 0;
+        const updatedArr = cats.map(i=>{
+            if(i.id === id){
+                showCards++;
+                i.show = !i.show;
+            }
+            return i
+        })
+        if(showCards >= 2){
+            console.log("Close all cards!")
+        }
+        setCats(updatedArr);
+
+    }
+
     const catsList = cats.map(cat => {
-        console.log('cat.found', cat.found)
+
         if (!cat.found) {
             return (
-                <Card img={cat.file} alt={cat.name} found={cat.found} key={cat.id}/>
+                <Card img={cat.file}
+                      alt={cat.name}
+                      found={cat.found}
+                      key={cat.id}
+                      id={cat.id}
+                      show={cat.show}
+                      updateFound={updateFound}/>
             )
         }
     })
