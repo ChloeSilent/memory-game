@@ -39,47 +39,39 @@ grid-gap: 20px;
 function App() {
 
     const initialCatsList = [
-        {name: 'cat1', file: cat1, found: false},
-        {name: 'cat2', file: cat2, found: false},
-        {name: 'cat3', file: cat3, found: false},
-        {name: 'cat4', file: cat4, found: false},
-        {name: 'cat5', file: cat5, found: false},
-        {name: 'cat6', file: cat6, found: false},
-        {name: 'cat7', file: cat7, found: false},
-        {name: 'cat8', file: cat8, found: false},
-        {name: 'cat9', file: cat9, found: false},
-        {name: 'cat10', file: cat10, found: false},
-        {name: 'cat11', file: cat11, found: false},
-        {name: 'cat12', file: cat12, found: false},
+        {name: 'cat1', file: cat1, found: false, id: null},
+        {name: 'cat2', file: cat2, found: false, id: null},
+        {name: 'cat3', file: cat3, found: false, id: null},
+        {name: 'cat4', file: cat4, found: false, id: null},
+        {name: 'cat5', file: cat5, found: false, id: null},
+        {name: 'cat6', file: cat6, found: false, id: null},
+        {name: 'cat7', file: cat7, found: false, id: null},
+        {name: 'cat8', file: cat8, found: false, id: null},
+        {name: 'cat9', file: cat9, found: false, id: null},
+        {name: 'cat10', file: cat10, found: false, id: null},
+        {name: 'cat11', file: cat11, found: false, id: null},
+        {name: 'cat12', file: cat12, found: false, id: null},
     ]
     const shuffle = (array) => {
-        let currentIndex = array.length, temporaryValue, randomIndex;
-
-        while (0 !== currentIndex) {
-
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
 
         return array;
     }
+    const prepareArray = (arr) => {
+        const newArr = arr.slice(0).reduce(function (res, current, index, array) {
+            return res.concat([current, current]);
+        }, []);
+        return newArr.map(obj=> ({ ...obj, id: uuid() }))
+    }
+    const catsArr = prepareArray(initialCatsList);
 
-    const catsArr1 = shuffle(initialCatsList).map(i => {
-        i.id = uuid();
-        return i;
-    });
-    const catsArr2 = shuffle(initialCatsList).map(i => {
-        i.id = uuid();
-        return i;
-    });
-    const [cats, setCats] = useState(catsArr1.concat(catsArr2));
-    console.log('catsArr1', catsArr1)
-    console.log('catsArr2', catsArr2)
+    const [cats, setCats] = useState(catsArr);
+
     const catsList = cats.map(cat => {
+        console.log('cat.found', cat.found)
         if (!cat.found) {
             return (
                 <Card img={cat.file} alt={cat.name} found={cat.found} key={cat.id}/>
