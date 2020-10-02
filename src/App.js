@@ -72,46 +72,60 @@ function App() {
     const catsArr = shuffle(prepareArray(initialCatsList));
 
     const [cats, setCats] = useState(catsArr);
-    let [count, setCount] = useState(0)
+    const [count, setCount] = useState(0);
+    const [canShow, setShowAbility] = useState(true)
 
 
     const updateFound = (name, id) => {
-
-        const updatedArr = cats.map(i => {
-            if (i.id === id) {
-                i.show = true;
-                setCount(count => {
-                    return count + 1
-                })
-            }
-            return i;
-        })
-        setCats(updatedArr);
-
+        console.log("canShow", canShow);
+        if(canShow){
+            const updatedArr = cats.map(i => {
+                if (i.id === id) {
+                    i.show = true;
+                    setCount(count => {
+                        return count + 1
+                    })
+                }
+                return i;
+            })
+            setCats(updatedArr);
+        }
     }
 
-    React.useEffect(() => {
+  React.useEffect(() => {
         if (count >= 2) {
-            let filtered = cats.filter((i) => {
-                if(i.show){
-                    console.log('i', i.name)
-                    if (cats.lastIndexOf(i.name)  === cats.indexOf(i.name)) {
-                        console.log('hohoho', i)
-                        return i;
-                    }
+            let filteredShow = cats.filter((i) => {
+                if (i.show) {
+                    return i;
                 }
             });
-            console.log("filtered", filtered)
 
+            let newCatsList = cats.slice(0);
+            if (filteredShow[0].name  === filteredShow[1].name) { //если те, кто show имеют одинков имена
+                console.log('BINGO', filteredShow[0].name) // создать новый array
+                newCatsList = cats.filter(i => {
+                    // i.show = false;
+                    if(i.name === filteredShow[0].name){
+                        i.found = true;
+                    }
+                    return i;
+                })
+                console.log("newCatsList", newCatsList);
+            }
+
+            setShowAbility(false);
             setTimeout(() => {
-                const updatedArr = cats.map(i => {
+                const updatedArr = newCatsList.map(i => {
                     i.show = false;
                     return i;
                 })
+
+                setCount(0);
                 setCats(updatedArr);
+                setShowAbility(true);
             }, 1000)
         }
-    }, [count]);
+    }, [count, cats]);
 
     const catsList = cats.map(cat => {
 
