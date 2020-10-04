@@ -1,4 +1,4 @@
-import React, {useState, pure} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import FrontImg from '../../Assets/meow.jpg'
 
@@ -9,7 +9,7 @@ const CardInner = styled.div`
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  transform: ${props => { return props.show !== false ? 'rotateY(180deg)': 'rotateY(0deg)'
+  transform: ${props => { return props.show ? 'rotateY(180deg)': 'rotateY(0deg)'
 }}
 `
 
@@ -53,17 +53,10 @@ max-width: 100%;
 height: auto;
 `;
 
-const Card = ({img, alt, cat, updateFound, id, show}) => {
-
-    // console.log('card', id, show)
-    // const [showCat, setShow] = useState(show)
-    const onClick = (name, id) => {
-        // console.log("cat onClick", name, id)
-        updateFound(name, id)
-    }
+const Card = ({img, alt, cat, onCardClick, id, show}) => {
 
     return (
-        <CardItem onClick={() => onClick(alt, id)}>
+        <CardItem onClick={() => onCardClick(alt, id)}>
             <CardInner show={show}>
                 <FrontSide>
                     <Img src={FrontImg} alt='meow'/>
@@ -77,9 +70,12 @@ const Card = ({img, alt, cat, updateFound, id, show}) => {
 };
 
 function areEqual(prevProps, nextProps) {
+    //console.log(nextProps.id, 'prevProps.show', prevProps.show, 'nextProps.show', nextProps.show)
     if (prevProps.show === nextProps.show) {
+        // console.log("SAME")
         return true;
     } else {
+        // console.log("SHOW CARD")
         return false;
     }
 }

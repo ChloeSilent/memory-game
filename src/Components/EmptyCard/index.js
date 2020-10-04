@@ -1,4 +1,4 @@
-import React, {useState, pure} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const CardItem = styled.li`
@@ -20,9 +20,7 @@ transition: 0.6s;
 const Card = () => {
 
     return (
-        <CardItem>
-
-        </CardItem>
+        <CardItem/>
     );
 };
 
