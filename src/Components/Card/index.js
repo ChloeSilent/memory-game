@@ -70,12 +70,9 @@ const Card = ({img, alt, cat, onCardClick, id, show}) => {
 };
 
 function areEqual(prevProps, nextProps) {
-    //console.log(nextProps.id, 'prevProps.show', prevProps.show, 'nextProps.show', nextProps.show)
     if (prevProps.show === nextProps.show) {
-        // console.log("SAME")
         return true;
     } else {
-        // console.log("SHOW CARD")
         return false;
     }
 }
