@@ -9,23 +9,24 @@ const CardInner = styled.div`
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  transform: ${props => { return props.show ? 'rotateY(180deg)': 'rotateY(0deg)'
-}}
+  transform: ${props => {
+    return props.show ? 'rotateY(180deg)' : 'rotateY(0deg)'
+  }}
 `
 
 const CardItem = styled.li`
-padding: 10px;
-display: flex;
-justify-content: center;
-align-items: center;
-max-width: 140px;
-max-height: 140px;
-min-width: 140px;
-min-height: 140px;
-background: #fff;
-position: relative;
-perspective: 1000px;
-transition: 0.6s;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 140px;
+  max-height: 140px;
+  min-width: 140px;
+  min-height: 140px;
+  background: #fff;
+  position: relative;
+  perspective: 1000px;
+  transition: 0.6s;
 
 `;
 
@@ -41,16 +42,17 @@ const FrontSide = styled.div`
   border-radius: 10%;
 `
 const BackSide = styled.div`
-transform: rotateY(180deg);
-height: 100%;
-width: 100%;
-background: #fff;
+  transform: rotateY(180deg);
+  height: 100%;
+  width: 100%;
+  background: #fff;
 `
 
 const Img = styled.img`
-display: block;
-max-width: 100%;
-height: auto;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
 `;
 
 const Card = ({img, alt, cat, onCardClick, id, show}) => {
